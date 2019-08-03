@@ -15,6 +15,5 @@ public class MongoConfig {
 
 	MongoClient mongoClient = new MongoClient(uri);
 	MongoDatabase database = mongoClient.getDatabase("seoul_parking");
-
 }
 */
