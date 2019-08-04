@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="utf-8"/>
-	<title>Kakao Áöµµ ½ÃÀÛÇÏ±â</title>
+	<title>Kakao ÃÃ¶ÂµÂµ Â½ÃƒÃ€Ã›Ã‡ÃÂ±Ã¢</title>
 </head>
 <body>
 <h2>hi</h2>
@@ -18,7 +18,7 @@
 	<script>
 		var container = document.getElementById('map');
 		var options = {
-			center: new kakao.maps.LatLng(33.450701, 126.570667),
+			center: new kakao.maps.LatLng(37.5662952,126.97794509999994),
 			level: 3
 		};
 
