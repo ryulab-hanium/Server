@@ -3,6 +3,11 @@ package com.seoulparking.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.geo.Distance;
+import org.springframework.data.geo.GeoResult;
+import org.springframework.data.geo.GeoResults;
+import org.springframework.data.geo.Metrics;
+import org.springframework.data.geo.Point;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -34,19 +39,22 @@ public class ParkingInfoController{
 		return infodao.findByAddr2(addr2); 
 	}
 	
-	@RequestMapping(value = "/radius", method = {RequestMethod.POST, RequestMethod.GET})   //반경 내 주차장 마커생성
-	public List<ParkingInfoDto> within(@RequestParam(value="x", required = false) double x,@RequestParam(value="y",required = false) double y) throws Exception {
-		System.out.println("클릭한 위치 좌표: "+x+' '+y);
-		List<ParkingInfoDto> within= infodao.findAll();
-		return within;
-	}
 	@RequestMapping(value = "/center", method = {RequestMethod.POST, RequestMethod.GET})   //반경 내 주차장 마커생성
 	public List<ParkingInfoDto> center(@RequestParam(value="_x", required = false) double x,@RequestParam(value="_y",required = false) double y) throws Exception {
 		System.out.println("지도 중심 좌표: "+x+' '+y);
 		List<ParkingInfoDto> within= infodao.findAll();
 		return within;
 	}
-	
+	@RequestMapping(value = "/radius", method = {RequestMethod.POST, RequestMethod.GET})   //반경 내 주차장 마커생성
+	public List<ParkingInfoDto> findByLocationNear(@RequestParam(value="x", required = false) double x,@RequestParam(value="y",required = false) double y) throws Exception {
+		System.out.println("클릭한 위치 좌표: "+x+' '+y);
+		List<ParkingInfoDto> grslt = infodao.findByLocationNear(new Point(y,x), new Distance(1,Metrics.KILOMETERS));
+		 //System.out.println("By point geonear with distance [Average Distance]: " + grslt.getAverageDistance());
+		for(ParkingInfoDto r : grslt)
+			System.out.println(r);
+		return grslt;
+		
+	}
 }
 	
 	
