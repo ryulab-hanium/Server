@@ -6,92 +6,60 @@
 <html>
 <head>
 <meta charset="utf-8" />
-<title>Kakao Áöµµ ½ÃÀÛÇÏ±â</title>
+<title>Kakao ì§€ë„ ì‹œì‘í•˜ê¸°</title>
 </head>
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <body>
 	<h2>MAP</h2>
-	<p>
-		<em>Áöµµ¸¦ Å¬¸¯ÇØÁÖ¼¼¿ä!</em>
-	</p>
+
 	<p id="result"></p>
-	<p id="click"></p>
+	
 	<div id="map" style="width: 500px; height: 400px;"></div>
 	<script type="text/javascript"
 		src="//dapi.kakao.com/v2/maps/sdk.js?appkey=561a845178111e911d22f0a791f9d99a"></script>
 	<script>
-		var mapContainer = document.getElementById('map'), // Áöµµ¸¦ Ç¥½ÃÇÒ div 
+		var mapContainer = document.getElementById('map'), // ì§€ë„ë¥¼ í‘œì‹œí•  div 
 		mapOption = {
-			center : new kakao.maps.LatLng(37.5662952, 126.97794509999994), // ÁöµµÀÇ Áß½ÉÁÂÇ¥
+			center : new kakao.maps.LatLng(37.5662952, 126.97794509999994), // ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ
 			level : 3
-		// ÁöµµÀÇ È®´ë ·¹º§
+		// ì§€ë„ì˜ í™•ëŒ€ ë ˆë²¨
 		};
 
-		var map = new kakao.maps.Map(mapContainer, mapOption); // Áöµµ¸¦ »ı¼ºÇÕ´Ï´Ù
-		// ÀÏ¹İ Áöµµ¿Í ½ºÄ«ÀÌºä·Î Áöµµ Å¸ÀÔÀ» ÀüÈ¯ÇÒ ¼ö ÀÖ´Â ÁöµµÅ¸ÀÔ ÄÁÆ®·ÑÀ» »ı¼ºÇÕ´Ï´Ù
+		var map = new kakao.maps.Map(mapContainer, mapOption);
+	
 		var mapTypeControl = new kakao.maps.MapTypeControl();
 
-		// Áöµµ¿¡ ÄÁÆ®·ÑÀ» Ãß°¡ÇØ¾ß ÁöµµÀ§¿¡ Ç¥½ÃµË´Ï´Ù
-		// kakao.maps.ControlPositionÀº ÄÁÆ®·ÑÀÌ Ç¥½ÃµÉ À§Ä¡¸¦ Á¤ÀÇÇÏ´Âµ¥ TOPRIGHT´Â ¿À¸¥ÂÊ À§¸¦ ÀÇ¹ÌÇÕ´Ï´Ù
 		map.addControl(mapTypeControl, kakao.maps.ControlPosition.TOPRIGHT);
 
-		// Áöµµ È®´ë Ãà¼Ò¸¦ Á¦¾îÇÒ ¼ö ÀÖ´Â  ÁÜ ÄÁÆ®·ÑÀ» »ı¼ºÇÕ´Ï´Ù
+		// ì§€ë„ í™•ëŒ€ ì¶•ì†Œë¥¼ ì œì–´í•  ìˆ˜ ìˆëŠ”  ì¤Œ ì»¨íŠ¸ë¡¤
 		var zoomControl = new kakao.maps.ZoomControl();
 		map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 		
-		// ¸¶Ä¿°¡ Ç¥½ÃµÉ À§Ä¡ÀÔ´Ï´Ù 
+		// ë§ˆì»¤ê°€ í‘œì‹œë  ìœ„ì¹˜
 		var markerPosition  = new kakao.maps.LatLng(37.5662952, 126.97794509999994); 
 
-		// ¸¶Ä¿¸¦ »ı¼ºÇÕ´Ï´Ù
+		// ë§ˆì»¤ ìƒì„±
 		var marker = new kakao.maps.Marker({
 		    position: markerPosition
 		});
 
-		// ¸¶Ä¿°¡ Áöµµ À§¿¡ Ç¥½ÃµÇµµ·Ï ¼³Á¤ÇÕ´Ï´Ù
+		// ë§ˆì»¤ê°€ í‘œì‹œ
 		marker.setMap(map);
 		
-
-		// ¸¶¿ì½º µå·¡±×·Î Áöµµ ÀÌµ¿ÀÌ ¿Ï·áµÇ¾úÀ» ¶§ ¸¶Áö¸· ÆÄ¶ó¹ÌÅÍ·Î ³Ñ¾î¿Â ÇÔ¼ö¸¦ È£ÃâÇÏµµ·Ï ÀÌº¥Æ®¸¦ µî·ÏÇÕ´Ï´Ù
-		kakao.maps.event.addListener(map, 'dragend', function() {        
-		    
-		    // Áöµµ Áß½ÉÁÂÇ¥¸¦ ¾ò¾î¿É´Ï´Ù 
-		    var latlng = {
-				    _x: map.getCenter().getLat(),
-				    _y: map.getCenter().getLng()
-				};
-			
-		    var message = 'º¯°æµÈ Áöµµ Áß½ÉÁÂÇ¥´Â ' + latlng._x + ' ÀÌ°í, ';
-		    message += '°æµµ´Â ' + latlng._y + ' ÀÔ´Ï´Ù';
-		    
-		    var resultDiv = document.getElementById('result');  
-		    resultDiv.innerHTML = message;
-		    
-		    $.ajax({
-		        url : "center",
-		        type : "GET",
-		        dataType: "json",
-		        data: latlng,
-		        success : function(data){
-		        	 console.log(latlng._x, latlng._y);
-			        	}
-		        });
-		    
-		});
-		// Áöµµ¿¡ Å¬¸¯ ÀÌº¥Æ®¸¦ µî·ÏÇÕ´Ï´Ù
-		// Áöµµ¸¦ Å¬¸¯ÇÏ¸é ¸¶Áö¸· ÆÄ¶ó¹ÌÅÍ·Î ³Ñ¾î¿Â ÇÔ¼ö¸¦ È£ÃâÇÕ´Ï´Ù
+		// ë§ˆìš°ìŠ¤ ë“œë˜ê·¸ì‹œ ì´ë™ëœ ì§€ë„ì˜ ì¤‘ì‹¬ì¢Œí‘œ ê¸°ì¤€ìœ¼ë¡œ 1Kmë‚´ ì£¼ì°¨ì¥ ë§ˆì»¤ ìƒì„±
 		 var markers=[];
-		kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
+		kakao.maps.event.addListener(map, 'dragend', function(mouseEvent) {
 			removeMarker();
-			// Å¬¸¯ÇÑ À§µµ, °æµµ Á¤º¸¸¦ °¡Á®¿É´Ï´Ù 
+			// ì§€ë„ì˜ ì¤‘ì‹¬ ì¢Œí‘œ
 			var latlng = {
-				    x: mouseEvent.latLng.getLat(),
-				    y: mouseEvent.latLng.getLng()
+				    x: map.getCenter().getLat(),
+				    y: map.getCenter().getLng()
 				};
 			
-			var message = 'Å¬¸¯ÇÑ À§Ä¡ÀÇ À§µµ´Â ' + latlng.x + ' ÀÌ°í, ';
-			message += '°æµµ´Â ' + latlng.y + ' ÀÔ´Ï´Ù';
+			var message = 'ë³€ê²½ëœ ì§€ë„ ì¤‘ì‹¬ì¢Œí‘œëŠ” ' + latlng.x + ' ì´ê³ , ';
+		    message += 'ê²½ë„ëŠ” ' + latlng.y + ' ì…ë‹ˆë‹¤';
 
-			var resultDiv = document.getElementById('click');
+			var resultDiv = document.getElementById('result');
 			resultDiv.innerHTML = message;
 			
 			   $.ajax({
@@ -101,23 +69,23 @@
 			        data: latlng,
 			        success : function(data){
 			        	
-				        	// ¸¶Ä¿ ÀÌ¹ÌÁöÀÇ ÀÌ¹ÌÁö ÁÖ¼ÒÀÔ´Ï´Ù
+				        	// ë§ˆì»¤ ì´ë¯¸ì§€ì˜ ì´ë¯¸ì§€ ì£¼ì†Œì…ë‹ˆë‹¤
 				        	var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
 				        	for (var i = 0; i < data.length; i++) {
 				        		  var coords =new kakao.maps.LatLng(data[i].location[1],data[i].location[0]);
 				        		 
 				        		  console.log(data[i].location[1],data[i].location[0])
-				        		  // ¸¶Ä¿ ÀÌ¹ÌÁöÀÇ ÀÌ¹ÌÁö Å©±â ÀÔ´Ï´Ù
+				        		  // ë§ˆì»¤ ì´ë¯¸ì§€ì˜ ì´ë¯¸ì§€ í¬ê¸° ì…ë‹ˆë‹¤
 				        		    var imageSize = new kakao.maps.Size(24, 35); 
 				        		    
-				        		    // ¸¶Ä¿ ÀÌ¹ÌÁö¸¦ »ı¼ºÇÕ´Ï´Ù    
+				        		    // ë§ˆì»¤ ì´ë¯¸ì§€ë¥¼ ìƒì„±í•©ë‹ˆë‹¤    
 				        		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
 				        		   
-				        		    // ¸¶Ä¿¸¦ »ı¼ºÇÕ´Ï´Ù
+				        		    // ë§ˆì»¤ë¥¼ ìƒì„±í•©ë‹ˆë‹¤
 				        		    var marker = new kakao.maps.Marker({
-				        		        map: map, // ¸¶Ä¿¸¦ Ç¥½ÃÇÒ Áöµµ
-				        		        position: coords, // ¸¶Ä¿¸¦ Ç¥½ÃÇÒ À§Ä¡
-				        		        image : markerImage // ¸¶Ä¿ ÀÌ¹ÌÁö 
+				        		        map: map, // ë§ˆì»¤ë¥¼ í‘œì‹œí•  ì§€ë„
+				        		        position: coords, // ë§ˆì»¤ë¥¼ í‘œì‹œí•  ìœ„ì¹˜
+				        		        image : markerImage // ë§ˆì»¤ ì´ë¯¸ì§€ 
 				        		    });
 				        		    markers.push(marker);
 				
@@ -125,42 +93,13 @@
 				        	}
 			        });
 		});
-		// Áöµµ À§¿¡ Ç¥½ÃµÇ°í ÀÖ´Â ¸¶Ä¿¸¦ ¸ğµÎ Á¦°ÅÇÕ´Ï´Ù
+		// ì§€ë„ìœ„ ëª¨ë“  ë§ˆì»¤ ì œê±° í•¨ìˆ˜
 		function removeMarker() {
 		for (var i = 0; i < markers.length; i++)
 				markers[i].setMap(null);
 		markers = [];
 		}
-		/*
-		  $(document).ready(function() {
-			   $.ajax({
-			        url : "all",
-			        type : "POST",
-			        dataType: "json",
-			        success : function(data){
-			        	// ¸¶Ä¿ ÀÌ¹ÌÁöÀÇ ÀÌ¹ÌÁö ÁÖ¼ÒÀÔ´Ï´Ù
-			        	var imageSrc = "http://t1.daumcdn.net/localimg/localimages/07/mapapidoc/markerStar.png"; 
-			        	for (var i = 0; i < data.length; i++) {
-			        		  var coords =new kakao.maps.LatLng(data[i].location[1],data[i].location[0]);
-			        		 
-			        		  console.log(data[i].location[1],data[i].location[0])
-			        		  // ¸¶Ä¿ ÀÌ¹ÌÁöÀÇ ÀÌ¹ÌÁö Å©±â ÀÔ´Ï´Ù
-			        		    var imageSize = new kakao.maps.Size(24, 35); 
-			        		    
-			        		    // ¸¶Ä¿ ÀÌ¹ÌÁö¸¦ »ı¼ºÇÕ´Ï´Ù    
-			        		    var markerImage = new kakao.maps.MarkerImage(imageSrc, imageSize); 
-			        		    
-			        		    // ¸¶Ä¿¸¦ »ı¼ºÇÕ´Ï´Ù
-			        		    var marker = new kakao.maps.Marker({
-			        		        map: map, // ¸¶Ä¿¸¦ Ç¥½ÃÇÒ Áöµµ
-			        		        position: coords, // ¸¶Ä¿¸¦ Ç¥½ÃÇÒ À§Ä¡
-			        		        image : markerImage // ¸¶Ä¿ ÀÌ¹ÌÁö 
-			        		    });
-				        	}
-			        	}
-			        });
-		  });  
-		 */
+		
 	</script>
 </body>
 </html>
